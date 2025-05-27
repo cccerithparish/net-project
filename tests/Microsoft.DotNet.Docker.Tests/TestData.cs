@@ -38,11 +38,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V8_0, OS = OS.Alpine321,           Arch = Arch.Amd64,   SdkOS = OS.Alpine321,
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Amd64 },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Amd64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Amd64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V8_0, OS = OS.AzureLinux30,           Arch = Arch.Amd64 },
             new ProductImageData { Version = V8_0, OS = OS.AzureLinux30Distroless, Arch = Arch.Amd64,   SdkOS = OS.AzureLinux30 },
             new ProductImageData { Version = V8_0, OS = OS.AzureLinux30Distroless, Arch = Arch.Amd64,   SdkOS = OS.AzureLinux30,
@@ -68,8 +63,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V8_0, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30,
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30, SdkImageVariant = DotNetImageVariant.AOT,
-                    ImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V8_0, OS = OS.Mariner20,           Arch = Arch.Arm64 },
             new ProductImageData { Version = V8_0, OS = OS.Mariner20Distroless, Arch = Arch.Arm64,   SdkOS = OS.Mariner20 },
             new ProductImageData { Version = V8_0, OS = OS.Mariner20Distroless, Arch = Arch.Arm64,   SdkOS = OS.Mariner20,
@@ -78,8 +71,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V8_0, OS = OS.Mariner20Distroless, Arch = Arch.Arm64,   SdkOS = OS.Mariner20,
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.Mariner20Distroless, Arch = Arch.Arm64,   SdkOS = OS.Mariner20, SdkImageVariant = DotNetImageVariant.AOT,
-                    ImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V8_0, OS = OS.BookwormSlim,        Arch = Arch.Arm64 },
             new ProductImageData { Version = V8_0, OS = OS.Jammy,               Arch = Arch.Arm64 },
             new ProductImageData { Version = V8_0, OS = OS.JammyChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Jammy },
@@ -97,11 +88,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V8_0, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble,
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Arm64 },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Arm64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Arm64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V8_0, OS = OS.Alpine321,           Arch = Arch.Arm64 },
             new ProductImageData { Version = V8_0, OS = OS.Alpine321,           Arch = Arch.Arm64,   SdkOS = OS.Alpine321,
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
@@ -117,11 +103,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V8_0, OS = OS.JammyChiseled,       Arch = Arch.Arm,     SdkOS = OS.Jammy,
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Arm },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Arm,     SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V8_0, OS = OS.Alpine320,           Arch = Arch.Arm,     SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V8_0, OS = OS.Alpine321,           Arch = Arch.Arm },
             new ProductImageData { Version = V8_0, OS = OS.Alpine321,           Arch = Arch.Arm,     SdkOS = OS.Alpine321,
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
@@ -139,11 +120,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V9_0, OS = OS.NobleChiseled,       Arch = Arch.Amd64,   SdkOS = OS.Noble,
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Amd64 },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Amd64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Amd64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V9_0, OS = OS.Alpine321,           Arch = Arch.Amd64 },
             new ProductImageData { Version = V9_0, OS = OS.Alpine321,           Arch = Arch.Amd64,   SdkOS = OS.Alpine321,
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
@@ -166,8 +142,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V9_0, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30,
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V9_0, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30, SdkImageVariant = DotNetImageVariant.AOT,
-                    ImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V9_0, OS = OS.BookwormSlim,        Arch = Arch.Arm64 },
             new ProductImageData { Version = V9_0, OS = OS.Noble,               Arch = Arch.Arm64 },
             new ProductImageData { Version = V9_0, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble },
@@ -177,11 +151,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V9_0, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble,
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Arm64 },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Arm64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Arm64,   SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V9_0, OS = OS.Alpine321,           Arch = Arch.Arm64 },
             new ProductImageData { Version = V9_0, OS = OS.Alpine321,           Arch = Arch.Arm64,   SdkOS = OS.Alpine321,
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
@@ -189,11 +158,6 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
 
             new ProductImageData { Version = V9_0, OS = OS.BookwormSlim,        Arch = Arch.Arm },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Arm },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Arm,     SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
-            new ProductImageData { Version = V9_0, OS = OS.Alpine320,           Arch = Arch.Arm,     SdkOS = OS.Alpine320,
-                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
             new ProductImageData { Version = V9_0, OS = OS.Alpine321,           Arch = Arch.Arm },
             new ProductImageData { Version = V9_0, OS = OS.Alpine321,           Arch = Arch.Arm,     SdkOS = OS.Alpine321,
                     ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
@@ -207,6 +171,78 @@ namespace Microsoft.DotNet.Docker.Tests
                     ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
             new ProductImageData { Version = V9_0, OS = OS.NobleChiseled,       Arch = Arch.Arm,     SdkOS = OS.Noble,
                     ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
+
+
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Noble,               Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Amd64,   SdkOS = OS.Noble },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Amd64,   SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Amd64,   SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Amd64,   SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Amd64,   SdkOS = OS.Alpine321,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Amd64,   SdkOS = OS.Alpine321,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30,           Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Amd64,   SdkOS = OS.AzureLinux30 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Amd64,   SdkOS = OS.AzureLinux30,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Amd64,   SdkOS = OS.AzureLinux30,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Amd64,   SdkOS = OS.AzureLinux30,
+                    ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.TrixieSlim,        Arch = Arch.Amd64 },
+
+            new() { Version = V10_0_Preview, Arch = Arch.Amd64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.Alpine321 },
+            new() { Version = V10_0_Preview, Arch = Arch.Amd64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.AzureLinux30Distroless, SdkOS = OS.AzureLinux30 },
+            new() { Version = V10_0_Preview, Arch = Arch.Amd64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.NobleChiseled, SdkOS = OS.Noble },
+            new() { Version = V10_0_Preview, Arch = Arch.Amd64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.TrixieSlim },
+
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30,           Arch = Arch.Arm64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.AzureLinux30Distroless, Arch = Arch.Arm64,   SdkOS = OS.AzureLinux30,
+                    ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Noble,               Arch = Arch.Arm64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm64,   SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Arm64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Arm64,   SdkOS = OS.Alpine321,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Arm64,   SdkOS = OS.Alpine321,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.TrixieSlim,        Arch = Arch.Arm64 },
+
+            new() { Version = V10_0_Preview, Arch = Arch.Arm64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.Alpine321 },
+            new() { Version = V10_0_Preview, Arch = Arch.Arm64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.AzureLinux30Distroless, SdkOS = OS.AzureLinux30 },
+            new() { Version = V10_0_Preview, Arch = Arch.Arm64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.NobleChiseled, SdkOS = OS.Noble },
+            new() { Version = V10_0_Preview, Arch = Arch.Arm64, SdkImageVariant = DotNetImageVariant.AOT, SupportedImageRepos = DotNetImageRepo.Runtime_Deps, OS = OS.TrixieSlim },
+
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Arm },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Arm,     SdkOS = OS.Alpine321,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Alpine321,           Arch = Arch.Arm,     SdkOS = OS.Alpine321,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.Noble,               Arch = Arch.Arm },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm,     SdkOS = OS.Noble },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm,     SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Composite, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm,     SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Composite | DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NobleChiseled,       Arch = Arch.Arm,     SdkOS = OS.Noble,
+                    ImageVariant = DotNetImageVariant.Extra, SupportedImageRepos = DotNetImageRepo.Runtime_Deps | DotNetImageRepo.Runtime | DotNetImageRepo.Aspnet },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.TrixieSlim,        Arch = Arch.Arm },
         };
 
         private static readonly ProductImageData[] s_windowsTestData =
@@ -223,7 +259,14 @@ namespace Microsoft.DotNet.Docker.Tests
             new ProductImageData { Version = V9_0, OS = OS.NanoServerLtsc2025, Arch = Arch.Amd64 },
             new ProductImageData { Version = V9_0, OS = OS.ServerCoreLtsc2019, Arch = Arch.Amd64 },
             new ProductImageData { Version = V9_0, OS = OS.ServerCoreLtsc2022, Arch = Arch.Amd64 },
-            new ProductImageData { Version = V9_0, OS = OS.ServerCoreLtsc2025, Arch = Arch.Amd64 }
+            new ProductImageData { Version = V9_0, OS = OS.ServerCoreLtsc2025, Arch = Arch.Amd64 },
+
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NanoServer1809,     Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NanoServerLtsc2022, Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.NanoServerLtsc2025, Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.ServerCoreLtsc2019, Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.ServerCoreLtsc2022, Arch = Arch.Amd64 },
+            new ProductImageData { Version = V10_0_Preview, OS = OS.ServerCoreLtsc2025, Arch = Arch.Amd64 },
         };
 
         private static readonly SampleImageData[] s_linuxSampleTestData =
@@ -270,16 +313,16 @@ namespace Microsoft.DotNet.Docker.Tests
 
         private static readonly ProductImageData[] s_linuxMonitorTestData =
         {
-            new ProductImageData { Version = V8_0, VersionFamily = V8_0, OS = OS.JammyChiseled,          OSTag = OS.UbuntuChiseled,    Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
-            new ProductImageData { Version = V8_0, VersionFamily = V8_0, OS = OS.JammyChiseled,          OSTag = OS.UbuntuChiseled,    Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor },
-            new ProductImageData { Version = V8_0, VersionFamily = V8_0, OS = OS.Mariner20Distroless,    OSTag = OS.MarinerDistroless, Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
-            new ProductImageData { Version = V8_0, VersionFamily = V8_0, OS = OS.Mariner20Distroless,    OSTag = OS.MarinerDistroless, Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor },
             new ProductImageData { Version = V8_1, VersionFamily = V8_0, OS = OS.JammyChiseled,          OSTag = OS.UbuntuChiseled,    Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
             new ProductImageData { Version = V8_1, VersionFamily = V8_0, OS = OS.JammyChiseled,          OSTag = OS.UbuntuChiseled,    Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor },
-            new ProductImageData { Version = V8_1, VersionFamily = V8_0, OS = OS.Mariner20Distroless,    OSTag = OS.MarinerDistroless, Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
-            new ProductImageData { Version = V8_1, VersionFamily = V8_0, OS = OS.Mariner20Distroless,    OSTag = OS.MarinerDistroless, Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor },
+            // OSTag does not correspond to OS because platform tags for Azure Linux were not added to the images
+            // Use CBL-Mariner distroless for OSTag since those platform tags exist and won't require tests to understand the difference in tagging.
+            new ProductImageData { Version = V8_1, VersionFamily = V8_0, OS = OS.AzureLinux30Distroless, OSTag = OS.MarinerDistroless, Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
+            new ProductImageData { Version = V8_1, VersionFamily = V8_0, OS = OS.AzureLinux30Distroless, OSTag = OS.MarinerDistroless, Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor },
             new ProductImageData { Version = V9_0, VersionFamily = V9_0, OS = OS.AzureLinux30Distroless, OSTag = "", Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
-            new ProductImageData { Version = V9_0, VersionFamily = V9_0, OS = OS.AzureLinux30Distroless, OSTag = "", Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor }
+            new ProductImageData { Version = V9_0, VersionFamily = V9_0, OS = OS.AzureLinux30Distroless, OSTag = "", Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor },
+            new ProductImageData { Version = V9_1_Preview, VersionFamily = V9_0, OS = OS.AzureLinux30Distroless, OSTag = "", Arch = Arch.Amd64,  SupportedImageRepos = DotNetImageRepo.Monitor },
+            new ProductImageData { Version = V9_1_Preview, VersionFamily = V9_0, OS = OS.AzureLinux30Distroless, OSTag = "", Arch = Arch.Arm64,  SupportedImageRepos = DotNetImageRepo.Monitor }
         };
 
         private static readonly ProductImageData[] s_windowsMonitorTestData =
@@ -289,24 +332,28 @@ namespace Microsoft.DotNet.Docker.Tests
         private static readonly ProductImageData[] s_AspireDashboardTestData =
         {
             new() {
-                Version = V9_0,
+                Version = V9_2,
                 VersionFamily = V9_0,
-                OS = OS.Mariner20Distroless,
+                OS = OS.AzureLinux30Distroless,
                 OSTag = "",
-                OSDir = OS.MarinerDistroless,
+                OSDir = OS.AzureLinuxDistroless,
                 Arch = Arch.Amd64,
                 SupportedImageRepos = DotNetImageRepo.Aspire_Dashboard,
             },
             new() {
-                Version = V9_0,
+                Version = V9_2,
                 VersionFamily = V9_0,
-                OS = OS.Mariner20Distroless,
+                OS = OS.AzureLinux30Distroless,
                 OSTag = "",
-                OSDir = OS.MarinerDistroless,
+                OSDir = OS.AzureLinuxDistroless,
                 Arch = Arch.Arm64,
                 SupportedImageRepos = DotNetImageRepo.Aspire_Dashboard
             },
         };
+
+        private static readonly ProductImageData[] s_YarpTestData =
+        [
+        ];
 
         public static IEnumerable<ProductImageData> AllImageData =>
         [
@@ -314,7 +361,8 @@ namespace Microsoft.DotNet.Docker.Tests
             ..s_windowsTestData,
             ..s_AspireDashboardTestData,
             ..s_linuxMonitorTestData,
-            ..s_windowsMonitorTestData
+            ..s_windowsMonitorTestData,
+            ..s_YarpTestData,
         ];
 
         public static IEnumerable<ProductImageData> GetImageData(
@@ -359,6 +407,20 @@ namespace Microsoft.DotNet.Docker.Tests
         {
             return (DockerHelper.IsLinuxContainerModeEnabled ? s_linuxMonitorTestData : s_windowsMonitorTestData)
                 .FilterImagesByPath(DotNetImageRepo.Monitor)
+                .FilterImagesByArch()
+                .FilterImagesByOs()
+                .Cast<ProductImageData>();
+        }
+
+        public static IEnumerable<ProductImageData> GetYarpImageData()
+        {
+            if (!DockerHelper.IsLinuxContainerModeEnabled)
+            {
+                return [];
+            }
+
+            return s_YarpTestData
+                .FilterImagesByPath(DotNetImageRepo.Yarp)
                 .FilterImagesByArch()
                 .FilterImagesByOs()
                 .Cast<ProductImageData>();

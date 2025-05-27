@@ -1,5 +1,18 @@
 ARG REPO=mcr.microsoft.com/dotnet/aspnet
-FROM $REPO:9.0.2-noble-amd64
+# Installer image
+FROM amd64/buildpack-deps:noble-curl AS installer
+
+# Install .NET SDK
+RUN curl -fSL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/9.0.300/dotnet-sdk-9.0.300-linux-x64.tar.gz \
+    && dotnet_sha512='dcab6daef3164390d09edc169d4bf8ec3480af1288e9766c07d20d3c7b70517d263083c3900381fda59c3a7f0aef3fd75ee4f604173c889e8222d6449091d843' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /dotnet \
+    && tar -oxzf dotnet.tar.gz -C /dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
+    && rm dotnet.tar.gz
+
+
+# .NET SDK image
+FROM $REPO:9.0.5-noble-amd64
 
 ENV \
     # Do not generate certificate
@@ -7,7 +20,7 @@ ENV \
     # Do not show first run text
     DOTNET_NOLOGO=true \
     # SDK version
-    DOTNET_SDK_VERSION=9.0.200 \
+    DOTNET_SDK_VERSION=9.0.300 \
     # Enable correct mode for dotnet watch (only mode supported in a container)
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
@@ -23,20 +36,15 @@ RUN apt-get update \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Install .NET SDK
-RUN curl -fSL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-x64.tar.gz \
-    && dotnet_sha512='1af5f3a444419b3f5cf99cb03ee740722722478226d0aff27ad41b1d11e69d73497e25c07ef06a6df9e73fb0fbdc4b9baca9accec95654d9ee7be4d5a5c3ac23' \
-    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
-    && rm dotnet.tar.gz \
-    # Trigger first run experience by running arbitrary cmd
-    && dotnet help
+COPY --from=installer ["/dotnet", "/usr/share/dotnet"]
+
+# Trigger first run experience by running arbitrary cmd
+RUN dotnet help
 
 # Install PowerShell global tool
-RUN powershell_version=7.5.0 \
+RUN powershell_version=7.5.1 \
     && curl -fSL --output PowerShell.Linux.x64.$powershell_version.nupkg https://powershellinfraartifacts-gkhedzdeaghdezhr.z01.azurefd.net/tool/$powershell_version/PowerShell.Linux.x64.$powershell_version.nupkg \
-    && powershell_sha512='997a634bf50a3e742d00badcc2ce0a4fd1e65e430c371fc276ead7634193f029e5670118c099bd2b3e6d2e06c6eb3cb00b4352c734ab3fd360dd7b79428ecb46' \
+    && powershell_sha512='96e6e2b513d5974f62ec46417b62a3a94fce59ac0ef0806ad7dc40f6fd8c15f8064b2e332483e7b180d33e033015e8709eef40a8020144b0d9947f4e5fe2e1fa' \
     && echo "$powershell_sha512  PowerShell.Linux.x64.$powershell_version.nupkg" | sha512sum -c - \
     && mkdir -p /usr/share/powershell \
     && dotnet tool install --add-source / --tool-path /usr/share/powershell --version $powershell_version PowerShell.Linux.x64 \

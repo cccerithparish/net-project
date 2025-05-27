@@ -12,11 +12,14 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Polly;
+using Polly.Retry;
 using SharpCompress.Common;
 using SharpCompress.Readers;
 using Xunit;
 using Xunit.Abstractions;
 
+#nullable enable
 namespace Microsoft.DotNet.Docker.Tests
 {
     [Trait("Category", "sdk")]
@@ -25,6 +28,21 @@ namespace Microsoft.DotNet.Docker.Tests
         private static readonly Dictionary<string, IEnumerable<SdkContentFileInfo>> s_sdkContentsCache =
             new Dictionary<string, IEnumerable<SdkContentFileInfo>>();
 
+        private static readonly RetryStrategyOptions s_sdkDownloadRetryStrategy =
+            new()
+            {
+                BackoffType = DelayBackoffType.Exponential,
+                MaxRetryAttempts = 4,
+                Delay = TimeSpan.FromSeconds(3),
+            };
+
+        private static readonly ResiliencePipeline s_sdkDownloadPipeline =
+            new ResiliencePipelineBuilder()
+                .AddRetry(s_sdkDownloadRetryStrategy)
+                .Build();
+
+        private static readonly HttpClient s_httpClient = CreateHttpClient();
+
         public SdkImageTests(ITestOutputHelper outputHelper)
             : base(outputHelper)
         {
@@ -32,24 +50,10 @@ namespace Microsoft.DotNet.Docker.Tests
 
         protected override DotNetImageRepo ImageRepo => DotNetImageRepo.SDK;
 
-        private static bool IsPowerShellSupported(ProductImageData imageData, out string reason)
-        {
-            if (imageData.OS.Contains("alpine") && imageData.IsArm)
-            {
-                reason = "PowerShell does not support Arm-based Alpine, skip testing (https://github.com/PowerShell/PowerShell/issues/14667, https://github.com/PowerShell/PowerShell/issues/12937)";
-                return false;
-            }
-
-            reason = "";
-            return true;
-        }
-
         public static IEnumerable<object[]> GetImageData()
         {
             return TestData.GetImageData(DotNetImageRepo.SDK)
                 .Where(imageData => !imageData.IsDistroless)
-                // Filter the image data down to the distinct SDK OSes
-                .Distinct(new SdkImageDataEqualityComparer())
                 .Select(imageData => new object[] { imageData });
         }
 
@@ -101,7 +105,6 @@ namespace Microsoft.DotNet.Docker.Tests
                 new EnvironmentVariableInfo("DOTNET_GENERATE_ASPNET_CERTIFICATE", "false"),
                 new EnvironmentVariableInfo("DOTNET_USE_POLLING_FILE_WATCHER", "true"),
                 new EnvironmentVariableInfo("NUGET_XMLDOC_MODE", "skip"),
-                new EnvironmentVariableInfo("POWERSHELL_DISTRIBUTION_CHANNEL", allowAnyValue: true),
                 new EnvironmentVariableInfo("DOTNET_SDK_VERSION", version)
                 {
                     IsProductVersion = true
@@ -111,6 +114,13 @@ namespace Microsoft.DotNet.Docker.Tests
                 new EnvironmentVariableInfo("DOTNET_NOLOGO", "true"),
                 ..GetCommonEnvironmentVariables(),
             ];
+
+            if (imageData.SupportsPowerShell
+                || imageData.Version == ImageVersion.V8_0
+                || imageData.Version == ImageVersion.V9_0)
+            {
+                variables.Add(new EnvironmentVariableInfo("POWERSHELL_DISTRIBUTION_CHANNEL", allowAnyValue: true));
+            }
 
             if (imageData.SdkOS.StartsWith(OS.Alpine))
             {
@@ -124,7 +134,7 @@ namespace Microsoft.DotNet.Docker.Tests
         [MemberData(nameof(GetImageData))]
         public void VerifyPowerShellScenario_DefaultUser(ProductImageData imageData)
         {
-            PowerShellScenario_Execute(imageData, null);
+            PowerShellScenario_Execute(imageData, string.Empty);
         }
 
         [DotNetTheory]
@@ -282,21 +292,14 @@ namespace Microsoft.DotNet.Docker.Tests
             string sdkUrl = GetSdkUrl(imageData);
             OutputHelper.WriteLine("Downloading SDK archive: " + sdkUrl);
 
-            if (!s_sdkContentsCache.TryGetValue(sdkUrl, out IEnumerable<SdkContentFileInfo> files))
+            if (!s_sdkContentsCache.TryGetValue(sdkUrl, out IEnumerable<SdkContentFileInfo>? files))
             {
                 string sdkFile = Path.GetTempFileName();
 
-                using HttpClient httpClient = new();
-
-                if (Config.IsInternal)
+                await s_sdkDownloadPipeline.ExecuteAsync(async cancellationToken =>
                 {
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                        "Basic",
-                        Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", "",
-                            Config.InternalAccessToken))));
-                }
-
-                await httpClient.DownloadFileAsync(new Uri(sdkUrl), sdkFile);
+                    await s_httpClient.DownloadFileAsync(new Uri(sdkUrl), sdkFile);
+                });
 
                 files = EnumerateArchiveContents(sdkFile)
                     .OrderBy(file => file.Path)
@@ -353,17 +356,19 @@ namespace Microsoft.DotNet.Docker.Tests
             return url;
         }
 
-        private void PowerShellScenario_Execute(ProductImageData imageData, string optionalArgs)
+        private void PowerShellScenario_Execute(ProductImageData imageData, string? optionalArgs = null)
         {
-            if (!IsPowerShellSupported(imageData, out string powershellReason))
+            string image = imageData.GetImage(DotNetImageRepo.SDK, DockerHelper);
+
+            if (!imageData.SupportsPowerShell)
             {
-                OutputHelper.WriteLine(powershellReason);
+                OutputHelper.WriteLine($"PowerShell is not supproted on {image}");
                 return;
             }
 
             // A basic test which executes an arbitrary command to validate PS is functional
             string output = DockerHelper.Run(
-                image: imageData.GetImage(DotNetImageRepo.SDK, DockerHelper),
+                image: image,
                 name: imageData.GetIdentifier($"pwsh"),
                 optionalRunArgs: optionalArgs,
                 command: $"pwsh -c (Get-Childitem env:DOTNET_RUNNING_IN_CONTAINER).Value"
@@ -372,50 +377,15 @@ namespace Microsoft.DotNet.Docker.Tests
             Assert.Equal(output, bool.TrueString, ignoreCase: true);
         }
 
-        private class SdkImageDataEqualityComparer : IEqualityComparer<ProductImageData>
+        private record SdkContentFileInfo
         {
-            public bool Equals([AllowNull] ProductImageData x, [AllowNull] ProductImageData y)
-            {
-                if (x is null && y is null)
-                {
-                    return true;
-                }
+            public string Path { get; init; }
+            public string Sha512 { get; init; }
 
-                if (x is null && !(y is null))
-                {
-                    return false;
-                }
-
-                if (!(x is null) && y is null)
-                {
-                    return false;
-                }
-
-                return x.VersionString == y.VersionString &&
-                    x.SdkOS == y.SdkOS &&
-                    x.Arch == y.Arch;
-            }
-
-            public int GetHashCode([DisallowNull] ProductImageData obj)
-            {
-                return $"{obj.VersionString}-{obj.SdkOS}-{obj.Arch}".GetHashCode();
-            }
-        }
-
-        private class SdkContentFileInfo : IComparable<SdkContentFileInfo>
-        {
             public SdkContentFileInfo(string path, string sha512)
             {
                 Path = NormalizePath(path);
                 Sha512 = sha512.ToLower();
-            }
-
-            public string Path { get; }
-            public string Sha512 { get; }
-
-            public int CompareTo([AllowNull] SdkContentFileInfo other)
-            {
-                return (Path + Sha512).CompareTo(other.Path + other.Sha512);
             }
 
             private static string NormalizePath(string path)
@@ -427,6 +397,21 @@ namespace Microsoft.DotNet.Docker.Tests
                     .TrimStart('/')
                     .ToLower();
             }
+        }
+
+        private static HttpClient CreateHttpClient()
+        {
+            var client = new HttpClient();
+
+            if (Config.IsInternal)
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                    "Basic",
+                    Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Format("{0}:{1}", "",
+                        Config.InternalAccessToken))));
+            };
+
+            return client;
         }
     }
 }

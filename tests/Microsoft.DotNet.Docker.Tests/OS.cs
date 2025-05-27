@@ -8,7 +8,6 @@ namespace Microsoft.DotNet.Docker.Tests
     {
         // Alpine
         public const string Alpine = "alpine";
-        public const string Alpine320 = $"{Alpine}3.20";
         public const string Alpine321 = $"{Alpine}3.21";
 
         // AzureLinux
@@ -20,6 +19,8 @@ namespace Microsoft.DotNet.Docker.Tests
         // Debian
         public const string Bookworm = "bookworm";
         public const string BookwormSlim = $"{Bookworm}{SlimSuffix}";
+        public const string Trixie = "trixie";
+        public const string TrixieSlim = $"{Trixie}{SlimSuffix}";
 
         // Mariner
         public const string Mariner = "cbl-mariner";

@@ -1,5 +1,18 @@
 ARG REPO=mcr.microsoft.com/dotnet/aspnet
-FROM $REPO:9.0.2-alpine3.21-arm64v8
+# Installer image
+FROM $REPO:9.0.5-alpine3.21-arm64v8 AS installer
+
+# Install .NET SDK
+RUN wget -O dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/9.0.300/dotnet-sdk-9.0.300-linux-musl-arm64.tar.gz \
+    && dotnet_sha512='0d9c5bf285f13ac3206ce327effe384fbca11af739c82c222b274654866c58d88338d66b91d4517906d7abeba33e97dd869c75b52b7cecef10af3e6e206eadb2' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /dotnet \
+    && tar -oxzf dotnet.tar.gz -C /dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
+    && rm dotnet.tar.gz
+
+
+# .NET SDK image
+FROM $REPO:9.0.5-alpine3.21-arm64v8
 
 ENV \
     # Do not generate certificate
@@ -7,7 +20,7 @@ ENV \
     # Do not show first run text
     DOTNET_NOLOGO=true \
     # SDK version
-    DOTNET_SDK_VERSION=9.0.200 \
+    DOTNET_SDK_VERSION=9.0.300 \
     # Disable the invariant mode (set in base image)
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
     # Enable correct mode for dotnet watch (only mode supported in a container)
@@ -25,12 +38,7 @@ RUN apk add --upgrade --no-cache \
         libatomic \
         tzdata
 
-# Install .NET SDK
-RUN wget -O dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-musl-arm64.tar.gz \
-    && dotnet_sha512='f1a70807e0a2b5ee272bdd714535a2fa3d31bb8c2216b43c151a72cb364f64a6f893590baeebc7dfb2b78ff50e4ba11c3e4cadf11c75744404fefabdc7ff08db' \
-    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
-    && rm dotnet.tar.gz \
-    # Trigger first run experience by running arbitrary cmd
-    && dotnet help
+COPY --from=installer ["/dotnet", "/usr/share/dotnet"]
+
+# Trigger first run experience by running arbitrary cmd
+RUN dotnet help

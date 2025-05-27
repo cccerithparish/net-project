@@ -1,5 +1,18 @@
 ARG REPO=mcr.microsoft.com/dotnet/aspnet
-FROM $REPO:8.0.13-alpine3.21-arm32v7
+# Installer image
+FROM $REPO:8.0.16-alpine3.21-arm32v7 AS installer
+
+# Install .NET SDK
+RUN wget -O dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.410/dotnet-sdk-8.0.410-linux-musl-arm.tar.gz \
+    && dotnet_sha512='309a0185897cd27596535e8d19e32d400812c7db35b1630ed880cb318c5961068f6b2b60b4d9866a8dcc00e02356b81f068d421a698578d248e9b27bc97ecab9' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /dotnet \
+    && tar -oxzf dotnet.tar.gz -C /dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
+    && rm dotnet.tar.gz
+
+
+# .NET SDK image
+FROM $REPO:8.0.16-alpine3.21-arm32v7
 
 ENV \
     # Do not generate certificate
@@ -7,7 +20,7 @@ ENV \
     # Do not show first run text
     DOTNET_NOLOGO=true \
     # SDK version
-    DOTNET_SDK_VERSION=8.0.406 \
+    DOTNET_SDK_VERSION=8.0.410 \
     # Disable the invariant mode (set in base image)
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
     # Enable correct mode for dotnet watch (only mode supported in a container)
@@ -24,12 +37,7 @@ RUN apk add --upgrade --no-cache \
         icu-libs \
         tzdata
 
-# Install .NET SDK
-RUN wget -O dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-musl-arm.tar.gz \
-    && dotnet_sha512='c4338ad18ae2e0425c4e9d6d51dd266217f33e7b64754483a6eb33b81b96f6e8086314010730166211cb96cc87c9a47fb76aefc3431b03f285cdcae2119a7cbd' \
-    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
-    && rm dotnet.tar.gz \
-    # Trigger first run experience by running arbitrary cmd
-    && dotnet help
+COPY --from=installer ["/dotnet", "/usr/share/dotnet"]
+
+# Trigger first run experience by running arbitrary cmd
+RUN dotnet help

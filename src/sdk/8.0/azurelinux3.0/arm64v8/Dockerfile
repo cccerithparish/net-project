@@ -1,5 +1,22 @@
 ARG REPO=mcr.microsoft.com/dotnet/aspnet
-FROM $REPO:8.0.13-azurelinux3.0-arm64v8
+# Installer image
+FROM $REPO:8.0.16-azurelinux3.0-arm64v8 AS installer
+
+RUN tdnf install -y \
+        tar \
+    && tdnf clean all
+
+# Install .NET SDK
+RUN curl -fSL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.410/dotnet-sdk-8.0.410-linux-arm64.tar.gz \
+    && dotnet_sha512='124a07f83e868a9d838ff26f85fa6b43f854fa8d7fc898d787b83d5cd120f3b9675f908d271d983bd2dce845afff39cceaf5500e945ef43852e46e6ddb115693' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /dotnet \
+    && tar -oxzf dotnet.tar.gz -C /dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
+    && rm dotnet.tar.gz
+
+
+# .NET SDK image
+FROM $REPO:8.0.16-azurelinux3.0-arm64v8
 
 ENV \
     # Do not generate certificate
@@ -7,7 +24,7 @@ ENV \
     # Do not show first run text
     DOTNET_NOLOGO=true \
     # SDK version
-    DOTNET_SDK_VERSION=8.0.406 \
+    DOTNET_SDK_VERSION=8.0.410 \
     # Enable correct mode for dotnet watch (only mode supported in a container)
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
@@ -21,14 +38,10 @@ RUN tdnf install -y \
         tar \
     && tdnf clean all
 
-# Install .NET SDK
-RUN curl -fSL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-arm64.tar.gz \
-    && dotnet_sha512='9b939f09fbda8a080b1266914ca02c4d60a95e85fa6a1344c378d394697de6935eb7d941dd9a3aeb977ada3aab561c614a5fe9b973824899cb02aa74e9c09988' \
-    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
-    && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
-    && rm dotnet.tar.gz \
-    # Trigger first run experience by running arbitrary cmd
-    && dotnet help
+COPY --from=installer ["/dotnet", "/usr/share/dotnet"]
+
+# Trigger first run experience by running arbitrary cmd
+RUN dotnet help
 
 # Install PowerShell global tool
 RUN powershell_version=7.4.7 \

@@ -20,6 +20,9 @@ namespace Microsoft.DotNet.Docker.Tests
 
         public bool GlobalizationInvariantMode => !SupportsGlobalization;
 
+        // PowerShell does not support Arm-based Alpine
+        public bool SupportsPowerShell => !(OS.Contains("alpine") && IsArm);
+
         public string SdkOS
         {
             get => HasCustomSdk ? _sdkOS : OS;
@@ -184,6 +187,7 @@ namespace Microsoft.DotNet.Docker.Tests
                 case DotNetImageRepo.Runtime_Deps:
                 case DotNetImageRepo.Monitor:
                 case DotNetImageRepo.Aspire_Dashboard:
+                case DotNetImageRepo.Yarp:
                     imageVersion = Version;
                     os = OSTag;
                     break;

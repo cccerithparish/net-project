@@ -1,5 +1,18 @@
 ARG REPO=mcr.microsoft.com/dotnet/aspnet
-FROM $REPO:8.0.13-jammy-arm32v7
+# Installer image
+FROM arm32v7/buildpack-deps:jammy-curl AS installer
+
+# Install .NET SDK
+RUN curl -fSL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/8.0.410/dotnet-sdk-8.0.410-linux-arm.tar.gz \
+    && dotnet_sha512='aae9c76dc346b162e7c0ba002d8978e946ebc11741567ede048806ebb09bfe90756d8c11476544d6ef21d6af2e9d96effd8b82272ec04540c87b25c57683065d' \
+    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+    && mkdir -p /dotnet \
+    && tar -oxzf dotnet.tar.gz -C /dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
+    && rm dotnet.tar.gz
+
+
+# .NET SDK image
+FROM $REPO:8.0.16-jammy-arm32v7
 
 ENV \
     # Do not generate certificate
@@ -7,7 +20,7 @@ ENV \
     # Do not show first run text
     DOTNET_NOLOGO=true \
     # SDK version
-    DOTNET_SDK_VERSION=8.0.406 \
+    DOTNET_SDK_VERSION=8.0.410 \
     # Enable correct mode for dotnet watch (only mode supported in a container)
     DOTNET_USE_POLLING_FILE_WATCHER=true \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
@@ -23,15 +36,10 @@ RUN apt-get update \
         wget \
     && rm -rf /var/lib/apt/lists/*
 
-# Install .NET SDK
-RUN curl -fSL --output dotnet.tar.gz https://builds.dotnet.microsoft.com/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-arm.tar.gz \
-    && dotnet_sha512='18a2bf575a6d895ce0671b22e4f0853003920f0b7f2f33ff45afc51d34453bfd6b87b2aa5e53349d0c6ae9f6c37f6663d37f87a2ee544c89a7f5ba88d6f65408' \
-    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
-    && mkdir -p /usr/share/dotnet \
-    && tar -oxzf dotnet.tar.gz -C /usr/share/dotnet ./packs ./sdk ./sdk-manifests ./templates ./LICENSE.txt ./ThirdPartyNotices.txt \
-    && rm dotnet.tar.gz \
-    # Trigger first run experience by running arbitrary cmd
-    && dotnet help
+COPY --from=installer ["/dotnet", "/usr/share/dotnet"]
+
+# Trigger first run experience by running arbitrary cmd
+RUN dotnet help
 
 # Install PowerShell global tool
 RUN powershell_version=7.4.7 \
