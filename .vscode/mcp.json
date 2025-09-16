@@ -1,0 +1,21 @@
+{
+	"servers": {
+		"github": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/",
+			"gallery": true,
+			"version": "0.0.1"
+		},
+		"mongodb": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"-y",
+				"mongodb-mcp-server@latest"
+			],
+			"gallery": true,
+			"version": "0.0.1"
+		}
+	},
+	"inputs": []
+}
