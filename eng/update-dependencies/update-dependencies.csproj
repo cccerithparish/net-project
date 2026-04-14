@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.8.43" />
     <PackageReference Include="Microsoft.DotNet.DarcLib" Version="1.1.0-beta.25210.2" />
     <PackageReference Include="Microsoft.DotNet.VersionTools" Version="9.0.0-beta.24151.5" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
@@ -17,5 +18,6 @@
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta5.25210.1" />
     <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.25210.1" />
     <PackageReference Include="System.CommandLine.NamingConventionBinder" Version="2.0.0-beta5.25210.1" />
+  <PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.3" />
   </ItemGroup>
 </Project>
